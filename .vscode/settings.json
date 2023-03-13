@@ -1,0 +1,26 @@
+{
+  "deno.enable": true,
+  "cSpell.words": [
+    "Andrej",
+    "backprop",
+    "backpropagation",
+    "deno",
+    "Karpathy",
+    "matmul",
+    "micrograd",
+    "mnist",
+    "Predᵢₖ",
+    "relu",
+    "SᵢⱼSᵢₖ",
+    "Sᵢⱼ𝛅ᵢₖ",
+    "softmax",
+    "Trueᵢₖ",
+    "unmap",
+    "vectorize",
+    "wgsl",
+    "Workgroups",
+    "𝛅ᵢₖ"
+  ],
+  "editor.formatOnSave": false,
+  "editor.defaultFormatter": "denoland.vscode-deno"
+}
