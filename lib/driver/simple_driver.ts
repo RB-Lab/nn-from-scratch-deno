@@ -68,18 +68,18 @@ export const simpleDriver: Driver = {
     softMaxCrossEntropy: {
       forward: (yTrue: Vector, yPredBatch: Matrix) => {
         const yPred = simpleDriver.activation.softmax.forward(yPredBatch);
-        const losses =  simpleDriver.loss.crossEntropy.forward(yTrue, yPred);
+        const losses = simpleDriver.loss.crossEntropy.forward(yTrue, yPred);
         return { losses, yPred };
       },
       backward: (yTrue: Vector, yPredBatch: Matrix) => {
         // derivative of cross entropy and softmax with respect to softmax input
-        // is softmax yPredᵢₖ - yTrueᵢₖ, where yTrueᵢₖ is one-hot encoded, it basically 
+        // is softmax yPredᵢₖ - yTrueᵢₖ, where yTrueᵢₖ is one-hot encoded, it basically
         // means that yTrueᵢₖ is 1 if k is the correct class and 0 otherwise, but
         // we have yTrue as a vector of correct class indices, so we can just
         // for each sample in yPredBatch subtract 1 from predicted value at index yTrue points to
         return yPredBatch.map((sample, i) => {
           const newRow = sample.slice();
-          newRow[yTrue[i]] -= 1 ;
+          newRow[yTrue[i]] -= 1;
           return newRow.map((value) => value / yTrue.length);
         });
       },
@@ -94,7 +94,7 @@ export const simpleDriver: Driver = {
     }
     throw new Error(
       `Wrong parameters type: expected number or number[] ` +
-        `but ${typeof array} given`,
+        `but ${typeof array} given`
     );
   },
 
@@ -114,7 +114,7 @@ export const simpleDriver: Driver = {
     }
     throw new Error(
       `Wrong parameters type: expected number, number or number[][] ` +
-        `but ${typeof height}, ${typeof width} given`,
+        `but ${typeof height}, ${typeof width} given`
     );
   },
 

@@ -1,6 +1,8 @@
 import { Driver, Matrix, Vector } from "./driver/driver.ts";
 
-type Activation = Driver["activation"]["relu"] | Driver["activation"]["softmax"];
+type Activation =
+  | Driver["activation"]["relu"]
+  | Driver["activation"]["softmax"];
 export interface BaseOptions {
   driver: Driver;
   activation?: Activation;
@@ -35,7 +37,7 @@ export class DenseLayer {
     } else {
       this.#weights = this.#driver.matrix(
         options.inputSize,
-        options.neuronsNumber,
+        options.neuronsNumber
       );
       this.#biases = this.#driver.vector(options.neuronsNumber);
     }
@@ -45,7 +47,7 @@ export class DenseLayer {
     this.#input = input;
     const result = this.#driver.addVector(
       this.#driver.matmul(input, this.#weights),
-      this.#biases,
+      this.#biases
     );
     return this.#activation ? this.#activation.forward(result) : result;
   }
@@ -59,12 +61,12 @@ export class DenseLayer {
     }
     this.#gradW = this.#driver.matmul(
       this.#driver.transpose(this.#input),
-      grad,
+      grad
     );
     this.#gradB = this.#driver.sumColumns(grad);
     this.#gradInput = this.#driver.matmul(
       grad,
-      this.#driver.transpose(this.#weights),
+      this.#driver.transpose(this.#weights)
     );
     return this.#gradInput;
   }
@@ -76,8 +78,8 @@ export class DenseLayer {
     this.#weights = this.#weights.map((row, i) =>
       row.map((value, j) => value - learningRate * this.#gradW![i][j])
     );
-    this.#biases = this.#biases.map((value, i) =>
-      value - learningRate * this.#gradB![i]
+    this.#biases = this.#biases.map(
+      (value, i) => value - learningRate * this.#gradB![i]
     );
   }
 }

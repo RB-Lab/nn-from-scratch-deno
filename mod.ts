@@ -1,6 +1,6 @@
 import { DenseLayer } from "./lib/dense_layer.ts";
 import { simpleDriver } from "./lib/driver/simple_driver.ts";
-import spiral from "../nn-from-scratch-py/spiral.json" assert { type: "json" };
+import spiral from "https://raw.githubusercontent.com/RB-Lab/nn-from-scratch-py/master/spiral.json" assert { type: "json" };
 
 const { X, y } = spiral;
 
@@ -18,13 +18,15 @@ const outputLayer = new DenseLayer({
 });
 
 const out: number[][] = [];
-const learningRate = 1;
+const learningRate = 0.2;
 for (let epoch = 0; epoch < 10000; epoch++) {
   const layer1output = inputLayer.forward(X);
   const output = outputLayer.forward(layer1output);
 
-  const {losses, yPred} = simpleDriver.combo.softMaxCrossEntropy.forward(y, output);
-  // const losses = simpleDriver.losses.crossEntropy.forward(y, output);
+  const { losses, yPred } = simpleDriver.combo.softMaxCrossEntropy.forward(
+    y,
+    output
+  );
 
   const meanLoss = simpleDriver.math.mean(losses);
 
@@ -35,7 +37,6 @@ for (let epoch = 0; epoch < 10000; epoch++) {
 
   out.push([epoch, accuracy, meanLoss]);
   const gradLoss = simpleDriver.combo.softMaxCrossEntropy.backward(y, yPred);
-  // const gradLoss = simpleDriver.losses.crossEntropy.backward(y, output);
   const gradOut = outputLayer.backward(output, gradLoss);
   inputLayer.backward(layer1output, gradOut);
   outputLayer.update(learningRate);
